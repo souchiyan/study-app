@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TodosController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,4 +36,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+//TodoList機能ーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+// Route::middleware('auth')->group(function () {
+//     Route::get('/todo', [TodosController::class, 'index']);
+//     Route::get("/todo/create", [TodosController::class, 'create']);
+//     Route::post("/todo", [TodosController::class, "store"]);
+// });
+Route::get('/todo', [TodosController::class, 'index']);
+Route::get("/todo/create", [TodosController::class, 'create']);
+Route::post("/todo", [TodosController::class, "store"]);
+Route::get('/todo/{todo}/edit', [TodosController::class, "edit"]);
+Route::put('/todo/{todo}', [TodosController::class, "update"]);
+Route::delete("/todo/{todo}", [TodosController::class, "delete"]);
+// ーーーーーーーーーーーーーーーーーーーーーーーーーー
+require __DIR__ . '/auth.php';

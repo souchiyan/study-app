@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Todos extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "title",
+        "description",
+        "due_date",
+        // "is_completed"
+    ];
 
     public function user()
     {
