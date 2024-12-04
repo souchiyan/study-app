@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MaterialsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodosController;
 use Illuminate\Foundation\Application;
@@ -36,17 +37,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//TodoList機能ーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-// Route::middleware('auth')->group(function () {
-//     Route::get('/todo', [TodosController::class, 'index']);
-//     Route::get("/todo/create", [TodosController::class, 'create']);
-//     Route::post("/todo", [TodosController::class, "store"]);
-// });
-Route::get('/todo', [TodosController::class, 'index']);
-Route::get("/todo/create", [TodosController::class, 'create']);
-Route::post("/todo", [TodosController::class, "store"]);
-Route::get('/todo/{todo}/edit', [TodosController::class, "edit"]);
-Route::put('/todo/{todo}', [TodosController::class, "update"]);
-Route::delete("/todo/{todo}", [TodosController::class, "delete"]);
-// ーーーーーーーーーーーーーーーーーーーーーーーーーー
+//TodoList機能ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+Route::middleware('auth')->group(function () {
+    Route::get('/todo', [TodosController::class, 'index']);
+    Route::get("/todo/create", [TodosController::class, 'create']);
+    Route::post("/todo", [TodosController::class, "store"]);
+    Route::get('/todo/{todo}/edit', [TodosController::class, "edit"]);
+    Route::put('/todo/{todo}', [TodosController::class, "update"]);
+    Route::delete("/todo/{todo}", [TodosController::class, "delete"]);
+});
+// ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+
+// Materials機能ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+Route::get('/material', [MaterialsController::class, 'index']);
+Route::get('/material/create', [MaterialsController::class, 'create']);
+Route::get('/material/{materials}', [MaterialsController::class, 'show']);
+Route::post('/material', [MaterialsController::class, 'store']);
+Route::get('/material/{materials}/edit', [MaterialsController::class, "edit"]);
+Route::put('/material/{materials}', [MaterialsController::class, "update"]);
+Route::delete('/material/{materials}', [MaterialsController::class, "delete"]);
+
+// ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 require __DIR__ . '/auth.php';

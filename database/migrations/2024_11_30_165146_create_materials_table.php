@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->string('title', 50);
             $table->text('description')->nullable();
             $table->string('file_path')->nullable(); 
