@@ -50,14 +50,16 @@ Route::middleware('auth')->group(function () {
 
 
 // Materials機能ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+Route::middleware('auth')->group(function () {
+    Route::get('/material', [MaterialsController::class, 'index']);
+    Route::get('/material/create', [MaterialsController::class, 'create']);
+    Route::get('/material/{materials}', [MaterialsController::class, 'show']);
+    Route::post('/material', [MaterialsController::class, 'store']);
+    Route::get('/material/{materials}/edit', [MaterialsController::class, "edit"]);
+    Route::put('/material/{materials}', [MaterialsController::class, "update"]);
+    Route::delete('/material/{materials}', [MaterialsController::class, "delete"]);
 
-Route::get('/material', [MaterialsController::class, 'index']);
-Route::get('/material/create', [MaterialsController::class, 'create']);
-Route::get('/material/{materials}', [MaterialsController::class, 'show']);
-Route::post('/material', [MaterialsController::class, 'store']);
-Route::get('/material/{materials}/edit', [MaterialsController::class, "edit"]);
-Route::put('/material/{materials}', [MaterialsController::class, "update"]);
-Route::delete('/material/{materials}', [MaterialsController::class, "delete"]);
+});
 
 // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 require __DIR__ . '/auth.php';
