@@ -35,10 +35,9 @@ function Count() {
         setIsRunning(false);
         const now = new Date();
         const endTimeFormatted = formatTime(now);
-        setData("end_time", endTimeFormatted); // フォームデータに終了時間を設定
-
-        // 勉強時間（秒単位から時間単位に変換）
+        setData("end_time", endTimeFormatted);
     };
+
     const handleCount = () => {
         const duration = time / 3600;
         setData("duration", duration.toFixed(2));
@@ -46,15 +45,11 @@ function Count() {
 
     const handleSendPosts = (e) => {
         e.preventDefault();
-
         if (!data.subject) {
             alert("科目を入力してください！");
             return;
         }
-
-        console.log("送信データ:", data); // デバッグ用ログ
-
-        post("/time"); // データ送信
+        post("/time");
     };
 
     const handleReset = () => {
@@ -84,41 +79,90 @@ function Count() {
     };
 
     return (
-        <div>
-            <h1>勉強計測</h1>
-            <form onSubmit={handleSendPosts}>
-                <label>
+        <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">勉強計測</h1>
+            <form
+                onSubmit={handleSendPosts}
+                className="w-full max-w-md bg-white rounded-lg shadow-md p-6 space-y-4"
+            >
+                <label className="block text-gray-700 font-semibold">
                     科目:
                     <input
                         type="text"
                         value={data.subject}
                         onChange={(e) => setData("subject", e.target.value)}
                         placeholder="例: 数学"
+                        className="mt-1 block w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300"
                     />
                 </label>
-                <p>計測時間: {displayTime()}</p>
-                <p>開始時間: {data.start_time || "未設定"}</p>
-                <p>終了時間: {data.end_time || "未設定"}</p>
-                <p>勉強時間: {data.duration || "未設定"} 時間</p>
-                {isRunning ? (
-                    <button type="button" onClick={handlePause}>
-                        計測終了
+                <div className="text-gray-600 space-y-2">
+                    <p>
+                        計測時間:{" "}
+                        <span className="font-semibold">{displayTime()}</span>
+                    </p>
+                    <p>
+                        開始時間:{" "}
+                        <span className="font-semibold">
+                            {data.start_time || "未設定"}
+                        </span>
+                    </p>
+                    <p>
+                        終了時間:{" "}
+                        <span className="font-semibold">
+                            {data.end_time || "未設定"}
+                        </span>
+                    </p>
+                    <p>
+                        勉強時間:{" "}
+                        <span className="font-semibold">
+                            {data.duration || "未設定"}
+                        </span>{" "}
+                        時間
+                    </p>
+                </div>
+                <div className="flex flex-wrap gap-4">
+                    {isRunning ? (
+                        <button
+                            type="button"
+                            onClick={handlePause}
+                            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                        >
+                            計測終了
+                        </button>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={handleStart}
+                            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                        >
+                            計測開始
+                        </button>
+                    )}
+                    <button
+                        type="button"
+                        onClick={handleCount}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                    >
+                        勉強時間を計算する
                     </button>
-                ) : (
-                    <button type="button" onClick={handleStart}>
-                        計測開始
+                    <button
+                        type="submit"
+                        className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600"
+                    >
+                        データを送信
                     </button>
-                )}
-                <button type="button" onClick={handleCount}>
-                    勉強時間を計算する
-                </button>
-                <button type="submit">データを送信</button>
-                <button type="button" onClick={handleReset}>
-                    リセット
-                </button>
+                    <button
+                        type="button"
+                        onClick={handleReset}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                    >
+                        リセット
+                    </button>
+                </div>
             </form>
-
-            <Link href="/time">戻る</Link>
+            <Link href="/time" className="mt-4 text-blue-500 hover:underline">
+                戻る
+            </Link>
         </div>
     );
 }
