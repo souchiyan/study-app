@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MaterialsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudytimeController;
 use App\Http\Controllers\TodosController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -61,5 +62,13 @@ Route::middleware('auth')->group(function () {
 
 });
 
-// ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+// ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+//勉強時間管理機能ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
+Route::get('/time', [StudytimeController::class, 'index']);
+Route::get('/time/count', [StudytimeController::class, 'count']);
+Route::post('/time', [StudytimeController::class, 'store']);
+
+// ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 require __DIR__ . '/auth.php';

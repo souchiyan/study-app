@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('subject', 50);
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->time('duration');
+            $table->float('duration')->nullable();
             $table->timestamps();
         });
     }
