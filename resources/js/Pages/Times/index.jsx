@@ -1,6 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { Link } from "@inertiajs/react";
 
 function Index(props) {
     const { counts } = props;
@@ -38,23 +39,24 @@ function Index(props) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center py-6 space-y-8">
-            <h1 className="text-3xl font-bold text-gray-800">勉強時間一覧</h1>
+        <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8 space-y-12">
+            <h1 className="text-4xl font-bold text-gray-800">勉強時間一覧</h1>
 
+            {/* 勉強時間のテーブル */}
             <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
-                <table className="table-auto w-full border-collapse border border-gray-200">
+                <table className="table-auto w-full border-collapse border border-gray-300">
                     <thead>
                         <tr className="bg-gray-200">
-                            <th className="border border-gray-300 px-4 py-2 text-left text-gray-700">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                                 科目
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-gray-700">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                                 開始時間
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-gray-700">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                                 終了時間
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-gray-700">
+                            <th className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                                 勉強時間（時間）
                             </th>
                         </tr>
@@ -62,16 +64,16 @@ function Index(props) {
                     <tbody>
                         {counts.map((count) => (
                             <tr key={count.id} className="even:bg-gray-50">
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">
                                     {count.subject}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">
                                     {count.start_time}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">
                                     {count.end_time}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">
                                     {count.duration}
                                 </td>
                             </tr>
@@ -80,15 +82,26 @@ function Index(props) {
                 </table>
             </div>
 
+            {/* 勉強時間の計測ボタン */}
+            <Link
+                href="/time/count"
+                className="inline-block px-6 py-3 text-white font-medium bg-blue-500 rounded-md shadow hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+            >
+                勉強時間を計測する
+            </Link>
+
+            {/* 円グラフの表示 */}
             <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+                <h2 className="text-2xl font-semibold text-gray-700 mb-6">
                     勉強時間の円グラフ
                 </h2>
                 <Pie data={data} />
             </div>
+
+            {/* ダッシュボードに戻るリンク */}
             <Link
                 href="/dashboard"
-                className="mt-4 inline-block px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md shadow hover:bg-gray-300 hover:text-gray-900 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                className="inline-block px-6 py-3 text-gray-700 bg-gray-200 rounded-md shadow hover:bg-gray-300 hover:text-gray-900 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
             >
                 戻る
             </Link>
