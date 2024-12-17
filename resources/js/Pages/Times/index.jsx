@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 function Index(props) {
     const { counts } = props;
@@ -9,6 +9,11 @@ function Index(props) {
 
     const subjects = counts.map((count) => count.subject);
     const durations = counts.map((count) => count.duration);
+    const deleteHandler = (id) => {
+        router.delete(`/time/${id}`, {
+            onBefore: () => confirm("削除しますか？"),
+        });
+    };
     const data = {
         labels: subjects,
         datasets: [
@@ -59,6 +64,10 @@ function Index(props) {
                             <th className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                                 勉強時間（時間）
                             </th>
+                            <th className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
+                                削除
+                            </th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +85,14 @@ function Index(props) {
                                 <td className="border border-gray-300 px-4 py-2 text-gray-700">
                                     {count.duration}
                                 </td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">
+                                <button
+                                    onClick={() => deleteHandler(count.id)}
+                                    className="text-red-600 hover:underline"
+                                >
+                                    削除
+                                </button>
+                            </td>
                             </tr>
                         ))}
                     </tbody>

@@ -21,7 +21,7 @@ function Count() {
         } else {
             clearInterval(interval);
         }
-        return () => clearInterval(interval); // クリーンアップ
+        return () => clearInterval(interval);
     }, [isRunning]);
 
     const handleStart = () => {
@@ -49,7 +49,9 @@ function Count() {
             alert("科目を入力してください！");
             return;
         }
-        post("/time");
+        post("/time", {
+            onFinish: () => alert("データの送信が完了しました"),
+        });
     };
 
     const handleReset = () => {

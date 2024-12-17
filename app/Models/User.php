@@ -20,6 +20,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Materials::class);
     }
+    public function studytimes()
+    {
+        return $this->hasMany(Studytime::class);
+    }
 
 
     /**

@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/time', [StudytimeController::class, 'index']);
 Route::get('/time/count', [StudytimeController::class, 'count']);
 Route::post('/time', [StudytimeController::class, 'store']);
+Route::delete('/time/{count}', [StudytimeController::class, 'delete']);
 
 // ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 require __DIR__ . '/auth.php';
