@@ -8,9 +8,19 @@ use App\Models\Materials;
 
 class MaterialsController extends Controller
 {
-    public function index(Materials $materials)
+    public function index(Materials $materials,Request $request)
     {
-        return Inertia::render('Materials/index', ['materials' => $materials->get()]);
+        if (isset($request->keyword)) {
+            $materials = Materials::
+                where('title',"LIKE", "%$request->keyword%")->get();
+            }
+        else {
+            $materials = Materials::get();
+        }
+
+        return Inertia::render('Materials/index', ['keyword' => $request->keyword,'materials' => $materials]);
+
+
     }
     public function show(Materials $materials)
     {
@@ -42,8 +52,8 @@ class MaterialsController extends Controller
     }
     public function delete(Materials $materials)
     {
-        $materials -> delete(); 
-        return redirect("/material" );
+        $materials->delete();
+        return redirect("/material");
 
     }
 }
