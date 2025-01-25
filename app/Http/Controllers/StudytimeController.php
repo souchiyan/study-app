@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\StudyTime;
+use App\Models\Studytime;
 class StudytimeController extends Controller
 {
     public function index(StudyTime $count)

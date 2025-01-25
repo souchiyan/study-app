@@ -1,12 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, router } from "@inertiajs/react";
 
 function TodoList(props) {
     const { todos } = props;
+    const [state, setState] = useState({});
+
+    // ページロード時に状態を復元
+    useEffect(() => {
+        const savedState = JSON.parse(localStorage.getItem("todoState")) || {};
+        const initialState = todos.reduce((acc, todo) => {
+            acc[todo.id] = savedState[todo.id] || {
+                isChecked: false,
+                priority: "最優先！",
+            };
+            return acc;
+        }, {});
+        setState(initialState);
+    }, [todos]);
+
+    // 状態が変わるたびにローカルストレージに保存
+    useEffect(() => {
+        localStorage.setItem("todoState", JSON.stringify(state));
+    }, [state]);
+
+    const handleCheckboxChange = (id) => {
+        setState((prevState) => ({
+            ...prevState,
+            [id]: {
+                ...prevState[id],
+                isChecked: !prevState[id]?.isChecked,
+            },
+        }));
+    };
+
+    const handlePriorityChange = (id, newPriority) => {
+        setState((prevState) => ({
+            ...prevState,
+            [id]: {
+                ...prevState[id],
+                priority: newPriority,
+            },
+        }));
+    };
 
     const deleteHandler = (id) => {
         router.delete(`/todo/${id}`, {
             onBefore: () => confirm("削除しますか？"),
+        });
+
+        // 削除後に状態を更新
+        setState((prevState) => {
+            const newState = { ...prevState };
+            delete newState[id];
+            return newState;
         });
     };
 
@@ -50,7 +96,15 @@ function TodoList(props) {
                                 className="even:bg-gray-50 odd:bg-white"
                             >
                                 <td className="border border-gray-300 px-4 py-2 text-center">
-                                    <input type="checkbox" />
+                                    <input
+                                        type="checkbox"
+                                        checked={
+                                            state[todo.id]?.isChecked || false
+                                        }
+                                        onChange={() =>
+                                            handleCheckboxChange(todo.id)
+                                        }
+                                    />
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     {todo.title}
@@ -59,7 +113,19 @@ function TodoList(props) {
                                     {todo.due_date}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    <select className="w-full p-4 bg-white border border-gray-300 rounded-md">
+                                    <select
+                                        value={
+                                            state[todo.id]?.priority ||
+                                            "最優先！"
+                                        }
+                                        onChange={(e) =>
+                                            handlePriorityChange(
+                                                todo.id,
+                                                e.target.value
+                                            )
+                                        }
+                                        className="w-full p-4 bg-white border border-gray-300 rounded-md"
+                                    >
                                         <option value="最優先！">
                                             最優先！
                                         </option>
